@@ -301,10 +301,16 @@ def gcp_classify_text(text):
 
     response = client.classify_text(document=document)
 
+    output = []
+
     for category in response.categories:
-        print("=" * 80)
-        print(f"category  : {category.name}")
-        print(f"confidence: {category.confidence:.0%}")
+        item = {}
+        item["category"]=category.name
+        item["confidence"]=category.confidence
+        output.append(item)
+
+    return output;
+
 
 if __name__ == "__main__":
     # This is used when running locally. Gunicorn is used to run the
