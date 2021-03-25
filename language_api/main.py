@@ -11,7 +11,7 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\PROJECTS\sample-gcp-nlp-flask\key.json"
+#os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:\PROJECTS\sample-gcp-nlp-flask\key.json"
 
 app = Flask(__name__)
 
@@ -29,7 +29,7 @@ def homepage():
 
     for text_entity in text_entities:
         #text_entity['syntax'] = pd.DataFrame(text_entity['syntax']).to_html()
-        text_entity['entities'] = pd.DataFrame(text_entity['entities']).to_html()
+        text_entity['entities'] = pd.DataFrame(text_entity['entities']).head(15).to_html()
         text_entity['classification'] = pd.DataFrame(text_entity['classification']).to_html()
 
     # # Return a Jinja2 HTML template and pass in text_entities as a parameter.
