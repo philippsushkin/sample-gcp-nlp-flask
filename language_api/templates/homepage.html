@@ -1,22 +1,58 @@
-<h1>Google Cloud Platform - Natural Language API</h1>
-
-<p>This Python Flask application demonstrates App Engine Flexible, Datastore, and the Natural Language API.</p>
-
-<br>
-
 <html>
+
+<style  type="text/css" >
+    table {
+      border: none;
+      border-collapse: collapse;
+      border-spacing: 0;
+      color: black;
+      font-size: 14px;
+      table-layout: fixed;
+    }
+    thead {
+      border-bottom: 1px solid black;
+      vertical-align: bottom;
+    }
+    tr, th, td {
+      text-align: right;
+      vertical-align: middle;
+      padding: 0.5em 0.5em;
+      line-height: normal;
+      white-space: normal;
+      max-width: none;
+      border: none;
+    }
+    th {
+      font-weight: bold;
+    }
+    tbody tr:nth-child(odd) {
+      background: #f5f5f5;
+    }
+    tbody tr:hover {
+      background: rgba(66, 165, 245, 0.2);
+    }
+    pre { white-space: pre-wrap }
+</style>
   <body>
+    <img width="100px" src="{{url_for('static', filename='db_logo.jpg')}}">
+    <h1>News Article Analysis Portal</h1>
+    <hr>
     <form action="upload" method="POST" enctype="multipart/form-data">
-      Upload Text: <input type="text" name="text"><br>
+      <h3>Upload Text:</h3>
+      <!-- <input type="text" name="text"> -->
+      <textarea name="text" rows="4" cols="100"></textarea>
+      <br>
+      <br>
       <input type="submit" name="submit" value="Submit">
     </form>
+    <hr>
     {% for text_entity in text_entities %}
-      <p>Text: {{text_entity['text']}}</p>
-      <p>Uploaded: {{text_entity['timestamp']}}</p>
-      <p>Overall Sentiment: {{text_entity['sentiment']}}</p>
-      <p>Syntax Analysis: {{text_entity['syntax']}}</p>
-      <p>Entities: {{text_entity['entities']}}</p>
-      <p>Classification: {{text_entity['classification']}}</p>
+      <h3>Text</h3><pre>{{text_entity['text']|safe}}</pre>
+      <h3>Uploaded</h3><p>{{text_entity['timestamp']}}</p>
+      <h3>Overall Sentiment</h3><p>{{text_entity['sentiment']}}</p>
+      <h3>Classification</h3><p>{{text_entity['classification']|safe}}</p>
+      <h3>Entities</h3><p>{{text_entity['entities']|safe}}</p>
+      <!--<p>Syntax Analysis: {{text_entity['syntax']|safe}}</p> -->
     {% endfor %}
   </body>
 </html> 

@@ -27,6 +27,11 @@ def homepage():
     query = datastore_client.query(kind="Sentences")
     text_entities = list(query.fetch())
 
+    for text_entity in text_entities:
+        #text_entity['syntax'] = pd.DataFrame(text_entity['syntax']).to_html()
+        text_entity['entities'] = pd.DataFrame(text_entity['entities']).to_html()
+        text_entity['classification'] = pd.DataFrame(text_entity['classification']).to_html()
+
     # # Return a Jinja2 HTML template and pass in text_entities as a parameter.
     return render_template("homepage.html", text_entities=text_entities)
 
@@ -38,7 +43,7 @@ def upload_text():
     # Analyse sentiment using Sentiment API call
     sentiment = analyze_text_sentiment(text)[0].get('sentiment score')
 
-    syntax = gcp_analyze_syntax(text)
+    #syntax = gcp_analyze_syntax(text)
 
     entities = gcp_analyze_entities(text)
 
@@ -70,11 +75,12 @@ def upload_text():
     # key = datastore_client.key(kind)
 
     # Construct the new entity using the key. Set dictionary values for entity
-    entity = datastore.Entity(key)
+    entity = datastore.Entity(key, exclude_from_indexes=('text','entities','sentiment'))
+
     entity["text"] = text
     entity["timestamp"] = current_datetime
     entity["sentiment"] = overall_sentiment
-    entity["syntax"] = syntax
+    #entity["syntax"] = syntax
     entity["entities"] = entities
     entity["classification"] = classification
 
